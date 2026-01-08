@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Carlos & Natália</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        :root {
+            --verde-oliva: #6B7652;
+            --verde-escuro: #4A5238;
+            --prata: #C0C0C0;
+            --prata-claro: #E8E8E8;
+            --branco: #FEFEFE;
+            --creme: #F9F7F4;
+        }
+        
+        * { -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--creme);
+            color: #4A4A4A;
+            overflow-x: hidden;
+            padding-bottom: 90px; /* Espaço para a nav bar */
+        }
+        
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        
+        /* Fundo Hero */
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(107, 118, 82, 0.9), rgba(74, 82, 56, 0.8)), 
+                        url('https://images.unsplash.com/photo-1519225468359-29612311a123?q=80&w=1000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .ornament {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--verde-oliva), transparent);
+            margin: 1.5rem auto;
+            opacity: 0.5;
+        }
+        
+        /* Glassmorphism */
+        .card-glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(107, 118, 82, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--verde-oliva), var(--verde-escuro));
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(107, 118, 82, 0.3);
+        }
+        
+        .btn-primary:active { transform: scale(0.98); }
+        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+        
+        .input-elegant {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--prata-claro);
+            transition: all 0.3s ease;
+        }
+        
+        .input-elegant:focus {
+            border-color: var(--verde-oliva);
+            box-shadow: 0 0 0 3px rgba(107, 118, 82, 0.1);
+            outline: none;
+        }
+        
+        .nav-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0,0,0,0.05);
+            z-index: 50;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .nav-item.active { color: var(--verde-oliva); }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+    </style>
+</head>
+<body>
+
+    <section id="hero" class="hero-bg flex items-center justify-center text-center text-white px-6">
+        <div class="fade-in-up w-full max-w-lg">
+            <p class="text-sm tracking-[0.3em] uppercase mb-4 opacity-90">O Casamento de</p>
+            <h1 class="font-serif text-6xl font-bold mb-2 tracking-wide">
+                Carlos <br> <span class="text-4xl italic font-light">&</span> Natália
+            </h1>
+            <div class="w-24 h-px bg-white/40 mx-auto my-6"></div>
+            <p class="text-xl font-light tracking-widest mb-8">11 • MARÇO • 2026</p>
+            
+            <a href="#rsvp" class="inline-block bg-white/20 backdrop-blur-md border border-white/40 text-white font-semibold text-lg py-4 px-10 rounded-full hover:bg-white/30 transition-all active:scale-95 w-full max-w-xs">
+                Confirmar Presença
+            </a>
+        </div>
+    </section>
+
+    <section id="sobre" class="py-16 px-6">
+        <div class="max-w-xl mx-auto text-center">
+            <h2 class="font-serif text-4xl mt-2 mb-4 text-[var(--verde-escuro)]">Nossa História</h2>
+            <div class="ornament"></div>
+            
+            <p class="text-gray-600 leading-relaxed text-lg font-light mt-6 mb-8">
+                Depois de anos construindo nossa história juntos, chegou o momento de celebrar nosso amor com as pessoas mais especiais das nossas vidas. Será um prazer imenso compartilhar esse dia inesquecível com você!
+            </p>
+            
+            <div class="card-glass rounded-2xl p-8">
+                <p class="text-gray-600 leading-relaxed text-lg font-light italic">
+                    "Àquele que é capaz de fazer infinitamente mais do que tudo o que pedimos ou pensamos, de acordo com o seu poder que atua em nós,"
+                </p>
+                <div class="mt-4 flex justify-center">
+                    <span class="font-serif text-lg text-[var(--verde-oliva)]">— Efésios 3:20</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="local" class="py-16 px-6 bg-white/50">
+        <div class="max-w-xl mx-auto">
+            <div class="text-center mb-8">
+                <h2 class="font-serif text-4xl text-[var(--verde-escuro)]">Cerimônia & Festa</h2>
+                <div class="ornament"></div>
+            </div>
+
+            <div class="card-glass rounded-2xl overflow-hidden shadow-lg">
+                <div class="bg-[var(--verde-escuro)] p-6 text-white text-center">
+                    <h3 class="font-serif text-2xl">Solar D'Kell</h3>
+                    <p class="opacity-80 mt-1">11 de Março às 16:00</p>
+                </div>
+                <div class="p-8 text-center">
+                    <p class="text-gray-600 mb-6">Rua Guaraçaima, 15 - Piatã<br>Salvador - BA</p>
+                    
+                    <div class="grid grid-cols-1 gap-3">
+                        <button onclick="window.open('https://waze.com/ul?q=Solar%20DKell', '_blank')" class="w-full py-3 rounded-xl border border-[var(--verde-oliva)] text-[var(--verde-oliva)] font-semibold flex items-center justify-center gap-2 active:bg-[var(--verde-oliva)] active:text-white transition-colors">
+                            <i class="ph ph-car text-xl"></i> Waze
+                        </button>
+                        <button onclick="window.open('https://maps.google.com/?q=Solar+DKell', '_blank')" class="w-full py-3 rounded-xl bg-gray-100 text-gray-700 font-semibold flex items-center justify-center gap-2 active:bg-gray-200 transition-colors">
+                            <i class="ph ph-map-pin text-xl"></i> Google Maps
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="presente" class="py-16 px-6">
+        <div class="max-w-xl mx-auto text-center">
+            <h2 class="font-serif text-4xl text-[var(--verde-escuro)] mb-4">Presentes</h2>
+            <div class="ornament"></div>
+            <p class="text-gray-600 mb-8 font-light">Sua presença é nosso maior presente! Se desejar contribuir com nossa lua de mel:</p>
+            
+            <div class="card-glass rounded-2xl p-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-[var(--verde-oliva)] opacity-5 rounded-bl-full -mr-4 -mt-4"></div>
+                
+                <p class="text-xs font-bold text-[var(--verde-oliva)] uppercase tracking-wider mb-2">Chave PIX (Celular)</p>
+                <p id="pix-key" class="font-mono text-xl text-gray-800 break-all mb-6 select-all">71988241717</p>
+                
+                <button id="btn-copy-pix" class="w-full py-4 rounded-xl btn-primary font-semibold flex items-center justify-center gap-2">
+                    <i class="ph ph-copy text-xl"></i> Copiar Chave
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="rsvp" class="py-16 px-6">
+        <div class="max-w-xl mx-auto">
+            <div class="text-center mb-8">
+                <h2 class="font-serif text-4xl text-[var(--verde-escuro)]">Confirmação</h2>
+                <div class="ornament"></div>
+                <p class="text-gray-500 mt-2">Favor confirmar até 11/02/2026</p>
+            </div>
+
+            <form id="rsvp-form" class="card-glass rounded-2xl p-6 shadow-xl space-y-5">
+                <div class="bg-yellow-50/80 border border-yellow-200/50 rounded-xl p-4 flex gap-3 items-start">
+                    <i class="ph-fill ph-warning-circle text-yellow-600 text-xl mt-0.5"></i>
+                    <p class="text-sm text-yellow-800 leading-relaxed font-medium">
+                        O convite é <strong>individual e intransferível</strong>. Realize uma confirmação para cada adulto.
+                    </p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-[var(--verde-escuro)] mb-2 ml-1">Nome Completo</label>
+                    <input type="text" id="name" required class="w-full p-4 rounded-xl input-elegant text-lg placeholder-gray-400" placeholder="Ex: Carlos Almeida">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-[var(--verde-escuro)] mb-2 ml-1">Celular (WhatsApp)</label>
+                    <input type="tel" id="phone" required class="w-full p-4 rounded-xl input-elegant text-lg placeholder-gray-400" placeholder="(71) 99999-9999">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-[var(--verde-escuro)] mb-2 ml-1">Crianças (Até 10 anos)</label>
+                    <div class="relative">
+                        <select id="kids" class="w-full p-4 rounded-xl input-elegant text-lg appearance-none bg-white">
+                            <option value="0">Não levarei crianças</option>
+                            <option value="1">1 Criança</option>
+                            <option value="2">2 Crianças</option>
+                            <option value="3">3 Crianças</option>
+                        </select>
+                        <i class="ph ph-caret-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-submit" class="w-full py-5 rounded-xl btn-primary font-bold text-lg mt-4 flex justify-center items-center gap-2">
+                    Confirmar Presença
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="text-center py-10 opacity-70">
+        <p class="font-serif text-gray-500 text-lg">Carlos & Natália</p>
+        <button id="admin-trigger" class="mt-4 text-[10px] uppercase tracking-widest text-gray-400 hover:text-[var(--verde-oliva)] transition-colors border-b border-transparent hover:border-[var(--verde-oliva)]">
+            Área dos Noivos
+        </button>
+    </footer>
+
+    <nav class="nav-bottom">
+        <div class="flex justify-around items-center py-3 px-2 max-w-lg mx-auto">
+            <a href="#hero" class="nav-item flex flex-col items-center gap-1 text-gray-400 p-2 rounded-lg hover:text-[var(--verde-oliva)] transition-colors">
+                <i class="ph ph-house text-2xl"></i>
+                <span class="text-[10px] font-medium uppercase tracking-wide">Início</span>
+            </a>
+            
+            <a href="#sobre" class="nav-item flex flex-col items-center gap-1 text-gray-400 p-2 rounded-lg hover:text-[var(--verde-oliva)] transition-colors">
+                <i class="ph ph-heart text-2xl"></i>
+                <span class="text-[10px] font-medium uppercase tracking-wide">Nós</span>
+            </a>
+            
+            <a href="#rsvp" class="nav-item flex flex-col items-center gap-1 text-[var(--verde-oliva)] p-2 rounded-lg active:scale-95 transition-transform">
+                <div class="bg-[var(--verde-oliva)] text-white w-12 h-12 rounded-full flex items-center justify-center -mt-8 shadow-lg shadow-[var(--verde-oliva)]/40 border-4 border-[var(--creme)]">
+                    <i class="ph ph-check text-2xl font-bold"></i>
+                </div>
+                <span class="text-[10px] font-bold uppercase tracking-wide mt-1">RSVP</span>
+            </a>
+
+            <a href="#local" class="nav-item flex flex-col items-center gap-1 text-gray-400 p-2 rounded-lg hover:text-[var(--verde-oliva)] transition-colors">
+                <i class="ph ph-map-pin text-2xl"></i>
+                <span class="text-[10px] font-medium uppercase tracking-wide">Local</span>
+            </a>
+            
+            <a href="#presente" class="nav-item flex flex-col items-center gap-1 text-gray-400 p-2 rounded-lg hover:text-[var(--verde-oliva)] transition-colors">
+                <i class="ph ph-gift text-2xl"></i>
+                <span class="text-[10px] font-medium uppercase tracking-wide">Mimo</span>
+            </a>
+        </div>
+    </nav>
+
+    <div id="success-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center px-6">
+        <div class="card-glass rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl animate-bounce-in">
+            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+                <i class="ph-fill ph-check text-4xl"></i>
+            </div>
+            <h3 class="font-serif text-3xl text-[var(--verde-escuro)] mb-2">Confirmado!</h3>
+            <p class="text-gray-600 mb-8 font-light">Obrigado por fazer parte da nossa história. Lembre-se que o convite é individual.</p>
+            <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="w-full py-4 rounded-xl bg-gray-800 text-white font-semibold">
+                Fechar
+            </button>
+        </div>
+    </div>
+
+    <div id="admin-section" class="hidden fixed inset-0 bg-[var(--creme)] z-[60] overflow-y-auto">
+        <div class="flex justify-between items-center p-6 border-b border-gray-200 sticky top-0 bg-[var(--creme)]/95 backdrop-blur z-10">
+            <h2 class="font-serif text-2xl text-[var(--verde-escuro)]">Área dos Noivos</h2>
+            <button id="close-admin" class="p-2 text-gray-400 hover:text-gray-600"><i class="ph ph-x text-2xl"></i></button>
+        </div>
+
+        <div id="admin-login-view" class="p-6 max-w-md mx-auto mt-10">
+            <h3 class="font-serif text-3xl font-bold mb-6 text-[var(--verde-escuro)]">Login</h3>
+            <form id="login-form" class="space-y-4">
+                <input type="email" id="admin-email" placeholder="Email" class="w-full p-4 rounded-xl input-elegant">
+                <input type="password" id="admin-pass" placeholder="Senha" class="w-full p-4 rounded-xl input-elegant">
+                <button type="submit" id="btn-login" class="w-full py-4 rounded-xl btn-primary font-bold">Entrar</button>
+                <p id="login-error" class="text-red-500 text-sm hidden text-center">Credenciais inválidas.</p>
+            </form>
+        </div>
+
+        <div id="admin-dashboard-view" class="hidden p-6 max-w-lg mx-auto pb-24">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-semibold text-gray-600">Resumo em Tempo Real</h3>
+                <button id="btn-logout" class="text-sm text-red-500 font-semibold px-3 py-1 rounded-lg hover:bg-red-50">Sair</button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3 mb-8">
+                <div class="card-glass p-4 rounded-2xl text-center">
+                    <span id="total-guests" class="block text-3xl font-bold text-[var(--verde-oliva)]">0</span>
+                    <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Total</span>
+                </div>
+                <div class="bg-white p-4 rounded-2xl text-center border border-gray-100">
+                    <span id="total-confirmations" class="block text-2xl font-bold text-gray-700">0</span>
+                    <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Adultos</span>
+                </div>
+                <div class="bg-white p-4 rounded-2xl text-center border border-gray-100">
+                    <span id="total-kids" class="block text-2xl font-bold text-gray-700">0</span>
+                    <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Crianças</span>
+                </div>
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-600 mb-4">Lista de Confirmados</h3>
+            <div id="guests-list" class="space-y-3">
+                <p class="text-center text-gray-400 py-10">Carregando...</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+        // SUA CONFIGURAÇÃO DO FIREBASE (MANTIDA)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBZ1zzoBRYXqRruaSlXj8l4uB-_EDFiy6k",
+            authDomain: "euvou-d5659.firebaseapp.com",
+            projectId: "euvou-d5659",
+            storageBucket: "euvou-d5659.firebasestorage.app",
+            messagingSenderId: "743509395106",
+            appId: "1:743509395106:web:4c8c311b1bcd3b103eb9fb"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const rsvpCollection = collection(db, "rsvps");
+
+        // --- UI Utils ---
+        
+        // Máscara de Telefone
+        document.getElementById('phone').addEventListener('input', function (e) {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+        });
+
+        // Copiar PIX
+        const btnCopyPix = document.getElementById('btn-copy-pix');
+        btnCopyPix.addEventListener('click', () => {
+            const pixKey = document.getElementById('pix-key').innerText;
+            navigator.clipboard.writeText(pixKey).then(() => {
+                const originalContent = btnCopyPix.innerHTML;
+                btnCopyPix.innerHTML = '<i class="ph-fill ph-check text-xl"></i> Copiado!';
+                btnCopyPix.classList.add('bg-green-600');
+                setTimeout(() => {
+                    btnCopyPix.innerHTML = originalContent;
+                    btnCopyPix.classList.remove('bg-green-600');
+                }, 2000);
+            });
+        });
+
+        // --- LÓGICA RSVP ---
+
+        const rsvpForm = document.getElementById('rsvp-form');
+        const submitBtn = document.getElementById('btn-submit');
+
+        rsvpForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const originalBtnContent = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="ph ph-spinner animate-spin text-2xl"></i> Enviando...';
+            submitBtn.classList.add('opacity-80');
+
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const kids = parseInt(document.getElementById('kids').value);
+
+            try {
+                await addDoc(rsvpCollection, {
+                    name,
+                    phone,
+                    kids,
+                    timestamp: serverTimestamp()
+                });
+
+                rsvpForm.reset();
+                document.getElementById('success-modal').classList.remove('hidden');
+
+            } catch (error) {
+                console.error("Erro", error);
+                alert("Erro ao confirmar. Tente novamente.");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnContent;
+                submitBtn.classList.remove('opacity-80');
+            }
+        });
+
+        // --- ADMIN ---
+
+        const adminTrigger = document.getElementById('admin-trigger');
+        const adminSection = document.getElementById('admin-section');
+        const closeAdmin = document.getElementById('close-admin');
+        const loginView = document.getElementById('admin-login-view');
+        const dashboardView = document.getElementById('admin-dashboard-view');
+        const loginForm = document.getElementById('login-form');
+        const btnLogin = document.getElementById('btn-login');
+
+        adminTrigger.addEventListener('click', () => adminSection.classList.remove('hidden'));
+        closeAdmin.addEventListener('click', () => adminSection.classList.add('hidden'));
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                loginView.classList.add('hidden');
+                dashboardView.classList.remove('hidden');
+                initRealtimeDashboard();
+            } else {
+                loginView.classList.remove('hidden');
+                dashboardView.classList.add('hidden');
+            }
+        });
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('admin-email').value;
+            const pass = document.getElementById('admin-pass').value;
+            const errorMsg = document.getElementById('login-error');
+
+            btnLogin.innerHTML = "Autenticando...";
+            btnLogin.disabled = true;
+            errorMsg.classList.add('hidden');
+
+            try {
+                await signInWithEmailAndPassword(auth, email, pass);
+            } catch (error) {
+                errorMsg.classList.remove('hidden');
+                btnLogin.disabled = false;
+                btnLogin.innerHTML = "Entrar";
+            }
+        });
+
+        document.getElementById('btn-logout').addEventListener('click', () => {
+            signOut(auth);
+            btnLogin.disabled = false;
+            btnLogin.innerHTML = "Entrar";
+        });
+
+        let unsubscribe;
+        function initRealtimeDashboard() {
+            if (unsubscribe) unsubscribe();
+
+            const q = query(rsvpCollection, orderBy("timestamp", "desc"));
+            const guestsListEl = document.getElementById('guests-list');
+
+            unsubscribe = onSnapshot(q, (snapshot) => {
+                let html = '';
+                let tGuests = 0;
+                let tConfirmations = 0;
+                let tKids = 0;
+
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const currentKids = data.kids || 0;
+                    
+                    tConfirmations += 1;
+                    tKids += currentKids;
+                    tGuests += (1 + currentKids);
+
+                    html += `
+                        <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center animate-fade-in mb-2">
+                            <div>
+                                <h4 class="font-bold text-gray-800">${data.name}</h4>
+                                <p class="text-sm text-gray-500">${data.phone}</p>
+                                <div class="mt-1">
+                                    ${data.kids > 0 ? `<span class="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded font-semibold">+ ${data.kids} Criança(s)</span>` : ''}
+                                </div>
+                            </div>
+                            <button class="delete-btn text-red-300 p-3 hover:bg-red-50 hover:text-red-500 rounded-full transition" data-id="${docSnap.id}">
+                                <i class="ph ph-trash text-xl"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+
+                guestsListEl.innerHTML = html || '<p class="text-center text-gray-400 py-10">Lista vazia.</p>';
+                document.getElementById('total-guests').innerText = tGuests;
+                document.getElementById('total-confirmations').innerText = tConfirmations;
+                document.getElementById('total-kids').innerText = tKids;
+
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        if(confirm('Excluir confirmação?')) {
+                            const id = e.currentTarget.getAttribute('data-id');
+                            await deleteDoc(doc(db, "rsvps", id));
+                        }
+                    });
+                });
+            });
+        }
+    </script>
+</body>
+</html>
