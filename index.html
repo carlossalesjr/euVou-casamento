@@ -30,12 +30,11 @@
             background: var(--creme);
             color: #4A4A4A;
             overflow-x: hidden;
-            padding-bottom: 90px; /* Espaço para a nav bar */
+            padding-bottom: 90px;
         }
         
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         
-        /* Fundo Hero */
         .hero-bg {
             background: linear-gradient(135deg, rgba(107, 118, 82, 0.9), rgba(74, 82, 56, 0.8)), 
                         url('https://images.unsplash.com/photo-1519225468359-29612311a123?q=80&w=1000&auto=format&fit=crop');
@@ -53,7 +52,6 @@
             opacity: 0.5;
         }
         
-        /* Glassmorphism */
         .card-glass {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
@@ -248,24 +246,20 @@
                 <i class="ph ph-house text-2xl"></i>
                 <span class="text-[10px] font-medium uppercase tracking-wide">Início</span>
             </a>
-            
             <a href="#sobre" class="nav-item flex flex-col items-center gap-1 text-gray-400 p-2 rounded-lg hover:text-[var(--verde-oliva)] transition-colors">
                 <i class="ph ph-heart text-2xl"></i>
                 <span class="text-[10px] font-medium uppercase tracking-wide">Nós</span>
             </a>
-            
             <a href="#rsvp" class="nav-item flex flex-col items-center gap-1 text-[var(--verde-oliva)] p-2 rounded-lg active:scale-95 transition-transform">
                 <div class="bg-[var(--verde-oliva)] text-white w-12 h-12 rounded-full flex items-center justify-center -mt-8 shadow-lg shadow-[var(--verde-oliva)]/40 border-4 border-[var(--creme)]">
                     <i class="ph ph-check text-2xl font-bold"></i>
                 </div>
                 <span class="text-[10px] font-bold uppercase tracking-wide mt-1">RSVP</span>
             </a>
-
             <a href="#local" class="nav-item flex flex-col items-center gap-1 text-gray-400 p-2 rounded-lg hover:text-[var(--verde-oliva)] transition-colors">
                 <i class="ph ph-map-pin text-2xl"></i>
                 <span class="text-[10px] font-medium uppercase tracking-wide">Local</span>
             </a>
-            
             <a href="#presente" class="nav-item flex flex-col items-center gap-1 text-gray-400 p-2 rounded-lg hover:text-[var(--verde-oliva)] transition-colors">
                 <i class="ph ph-gift text-2xl"></i>
                 <span class="text-[10px] font-medium uppercase tracking-wide">Mimo</span>
@@ -329,6 +323,11 @@
                 </div>
             </div>
 
+            <div class="mb-6 relative">
+                <i class="ph ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl"></i>
+                <input type="text" id="search-guest" placeholder="Pesquisar por nome..." class="w-full pl-12 pr-4 py-3 rounded-xl input-elegant text-sm bg-white">
+            </div>
+
             <h3 class="text-lg font-semibold text-gray-600 mb-4">Lista de Confirmados</h3>
             <div id="guests-list" class="space-y-3">
                 <p class="text-center text-gray-400 py-10">Carregando...</p>
@@ -355,7 +354,7 @@
         const auth = getAuth(app);
         const rsvpCollection = collection(db, "rsvps");
 
-        // Variável global para armazenar dados para exportação
+        // Variável global para armazenar dados e permitir a pesquisa
         let currentGuestsData = [];
 
         // UI Utils
@@ -470,9 +469,7 @@
                 return;
             }
 
-            // O \uFEFF força o Excel a reconhecer o UTF-8 (mantém os acentos corretos)
             let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
-            // CSV Header atualizado
             csvContent += "Nome,WhatsApp,Crianças,Data de Registro\n";
 
             currentGuestsData.forEach(guest => {
@@ -493,62 +490,93 @@
             document.body.removeChild(link);
         });
 
-        // Carregar Dashboard
+        // Função de renderizar a lista HTML
+        function renderGuestsList(guestsArray) {
+            const guestsListEl = document.getElementById('guests-list');
+            let html = '';
+
+            guestsArray.forEach((data) => {
+                html += `
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center animate-fade-in mb-2">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <h4 class="font-bold text-gray-800">${data.name}</h4>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-2">${data.phone}</p>
+                            <div class="flex gap-2 items-center flex-wrap">
+                                ${data.kids > 0 ? `<span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-1 rounded font-semibold border border-blue-100">+ ${data.kids} Criança(s)</span>` : ''}
+                            </div>
+                        </div>
+                        <button class="delete-btn text-red-300 p-3 hover:bg-red-50 hover:text-red-500 rounded-full transition" data-id="${data.id}">
+                            <i class="ph ph-trash text-xl"></i>
+                        </button>
+                    </div>
+                `;
+            });
+
+            guestsListEl.innerHTML = html || '<p class="text-center text-gray-400 py-10">Nenhum convidado encontrado.</p>';
+
+            // Re-adiciona os eventos de exclusão para a lista recém-renderizada
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    if(confirm('Tem certeza que deseja apagar essa confirmação?')) {
+                        const id = e.currentTarget.getAttribute('data-id');
+                        await deleteDoc(doc(db, "rsvps", id));
+                    }
+                });
+            });
+        }
+
+        // Evento de Pesquisa
+        document.getElementById('search-guest').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredGuests = currentGuestsData.filter(guest => 
+                guest.name.toLowerCase().includes(searchTerm)
+            );
+            renderGuestsList(filteredGuests);
+        });
+
+        // Carregar Dashboard em tempo real do Firebase
         let unsubscribe;
         function initRealtimeDashboard() {
             if (unsubscribe) unsubscribe();
 
             const q = query(rsvpCollection, orderBy("timestamp", "desc"));
-            const guestsListEl = document.getElementById('guests-list');
 
             unsubscribe = onSnapshot(q, (snapshot) => {
-                let html = '';
                 let tGuests = 0;
                 let tConfirmations = 0;
                 let tKids = 0;
                 
-                currentGuestsData = []; // Reseta a lista de exportação
+                currentGuestsData = []; // Zera a lista sempre que há atualização do banco
 
                 snapshot.forEach((docSnap) => {
                     const data = docSnap.data();
-                    currentGuestsData.push(data); // Salva para exportar
+                    data.id = docSnap.id; // Guarda o ID do documento para usar na exclusão
+                    currentGuestsData.push(data);
 
                     const currentKids = data.kids || 0;
                     tConfirmations += 1;
                     tKids += currentKids;
                     tGuests += (1 + currentKids);
-
-                    html += `
-                        <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center animate-fade-in mb-2">
-                            <div>
-                                <div class="flex items-center gap-2 mb-1">
-                                    <h4 class="font-bold text-gray-800">${data.name}</h4>
-                                </div>
-                                <p class="text-sm text-gray-500 mb-2">${data.phone}</p>
-                                <div class="flex gap-2 items-center flex-wrap">
-                                    ${data.kids > 0 ? `<span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-1 rounded font-semibold border border-blue-100">+ ${data.kids} Criança(s)</span>` : ''}
-                                </div>
-                            </div>
-                            <button class="delete-btn text-red-300 p-3 hover:bg-red-50 hover:text-red-500 rounded-full transition" data-id="${docSnap.id}">
-                                <i class="ph ph-trash text-xl"></i>
-                            </button>
-                        </div>
-                    `;
                 });
 
-                guestsListEl.innerHTML = html || '<p class="text-center text-gray-400 py-10">Lista vazia.</p>';
+                // Atualiza os resumos gerais
                 document.getElementById('total-guests').innerText = tGuests;
                 document.getElementById('total-confirmations').innerText = tConfirmations;
                 document.getElementById('total-kids').innerText = tKids;
 
-                document.querySelectorAll('.delete-btn').forEach(btn => {
-                    btn.addEventListener('click', async (e) => {
-                        if(confirm('Tem certeza que deseja apagar essa confirmação?')) {
-                            const id = e.currentTarget.getAttribute('data-id');
-                            await deleteDoc(doc(db, "rsvps", id));
-                        }
-                    });
-                });
+                // Restaura a barra de pesquisa para vazio em caso de nova atualização
+                const searchInput = document.getElementById('search-guest');
+                
+                // Renderiza a lista respeitando se já existe algo digitado na busca
+                const searchTerm = searchInput.value.toLowerCase();
+                if (searchTerm) {
+                    const filteredGuests = currentGuestsData.filter(guest => guest.name.toLowerCase().includes(searchTerm));
+                    renderGuestsList(filteredGuests);
+                } else {
+                    renderGuestsList(currentGuestsData);
+                }
             });
         }
     </script>
